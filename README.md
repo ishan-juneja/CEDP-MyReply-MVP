@@ -1,45 +1,366 @@
-<div id="top"></div>
+# 🚀 AI-Powered Legal Document Generator MVP
 
-<p align="center">Help us grow and star us on Github! ⭐️</p>
+<div align="center">
 
-<p align="center">
+**MyReply CEDP Legal Document Generator**
 
-<a href="https://formbricks.com">
+*Transform survey responses into professional legal defense documents using AI*
 
-<img width="120" alt="Open Source Privacy First Experience Management Solution Qualtrics Alternative Logo" src="https://github.com/formbricks/formbricks/assets/72809645/0086704f-bee7-4d38-9cc8-fa42ee59e004">
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
+[![Formbricks](https://img.shields.io/badge/Formbricks-Integrated-orange.svg)](https://formbricks.com/)
 
-</a>
+</div>
 
-<h3 align="center">Formbricks</h3>
+---
 
-<p align="center">
-The Open Source Qualtrics Alternative
-<br />
-<a href="https://formbricks.com/">Website</a>
-</p>
-</p>
+## 📋 Overview
 
-<p align="center">
-<a href="https://github.com/formbricks/formbricks/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL-purple" alt="License"></a> <a href="https://github.com/formbricks/formbricks/stargazers"><img src="https://img.shields.io/github/stars/formbricks/formbricks?logo=github" alt="Github Stars"></a>
-<a href="https://insights.linuxfoundation.org/project/formbricks"><img src="https://insights.linuxfoundation.org/api/badge/health-score?project=formbricks"></a>
-<a href="https://news.ycombinator.com/item?id=32303986"><img src="https://img.shields.io/badge/Hacker%20News-122-%23FF6600" alt="Hacker News"></a>
-<a href="[https://www.producthunt.com/products/formbricks](https://www.producthunt.com/posts/formbricks)"><img src="https://img.shields.io/badge/Product%20Hunt-455-orange?logo=producthunt&logoColor=%23fff" alt="Product Hunt"></a>
-<a href="https://github.blog/2023-04-12-github-accelerator-our-first-cohort-and-whats-next/"><img src="https://img.shields.io/badge/2023-blue?logo=github&label=Github%20Accelerator" alt="Github Accelerator"></a>
-<a href="https://github.com/formbricks/formbricks/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
-</p>
+The AI-Powered Legal Document Generator is a comprehensive solution that automates the creation of legal defense documents for eviction cases. By integrating Formbricks surveys with AI-powered OCR and LLM services, this system transforms tenant information into professional legal arguments and formatted PDF documents.
 
-<br/>
+### ✨ Key Features
 
-<div style="background-color:#f8fafc; border-radius:5px;">
-<p align="center">
-<i>Trusted by</i><br/>
-  <img width="867" alt="clients-hi-res" src="https://github.com/formbricks/formbricks/assets/72809645/924d3693-f66a-4063-bb31-6e5789a8175a">
-</p>
-<div>
+- **📝 Intelligent Survey Integration**: Formbricks webhook integration for real-time survey processing
+- **👁️ Advanced OCR Processing**: Extract text from eviction notices and legal documents
+- **🤖 AI-Powered Legal Analysis**: Generate contextual legal arguments using Large Language Models
+- **📄 Professional PDF Generation**: Create formatted legal defense documents
+- **🔄 Automated Workflow**: End-to-end pipeline from survey completion to document delivery
+- **🌐 Web-Based Interface**: User-friendly survey interface with embedded PDF viewing
 
-<p align="center">
-<a href="https://trendshift.io/repositories/2570" target="_blank"><img src="https://trendshift.io/api/badge/repositories/2570" alt="Trendshift Badge for formbricks/formbricks" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-</p>
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Formbricks    │ -> │   Next.js       │ -> │   FastAPI       │
+│   Survey        │    │   Webhook       │    │   Services      │
+│   Response      │    │   Handler       │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Survey Data   │ -> │   OCR Analysis  │ -> │   LLM Argument  │
+│   Processing    │    │   (Tesseract)   │    │   Generation    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                                       │
+                                                       ▼
+                                            ┌─────────────────┐
+                                            │   PDF Document  │
+                                            │   Generation    │
+                                            │   (ReportLab)   │
+                                            └─────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **Python** (v3.8 or higher)
+- **Docker** (for database and services)
+- **ngrok** (for webhook tunneling)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ishan-juneja/CEDP-MyReply-MVP.git
+   cd CEDP-MyReply-MVP
+   ```
+
+2. **Setup Python Environment**
+   ```bash
+   cd services
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+3. **Setup Node.js Environment**
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
+
+4. **Start Services**
+   ```bash
+   # Start FastAPI service
+   cd services
+   ./start.sh
+
+   # Start Next.js application
+   npm run dev
+   ```
+
+5. **Setup ngrok for Webhooks**
+   ```bash
+   ngrok http 3000
+   ```
+
+---
+
+## 📁 Project Structure
+
+```
+CEDP-MyReply-MVP/
+├── apps/
+│   └── web/                    # Next.js Application
+│       ├── app/
+│       │   ├── api/
+│       │   │   ├── myreply-webhook/    # Main webhook endpoint
+│       │   │   ├── survey-results/     # Survey results display
+│       │   │   └── test-webhook/       # Testing endpoint
+│       └── middleware/          # Route configuration
+├── services/                   # Python FastAPI Services
+│   ├── api.py                  # Main FastAPI application
+│   ├── eviction_ocr_llm_helper.py  # OCR and LLM logic
+│   ├── requirements.txt        # Python dependencies
+│   ├── start.sh               # Service startup script
+│   └── temp_uploads/          # Temporary file storage
+├── output/                    # Generated PDF documents
+├── survey.html               # Standalone survey page
+├── test-survey-page/         # Test survey interface
+├── ARCHITECTURE_FLOW.md      # Technical architecture docs
+├── INTEGRATION_COMPLETE.md   # Integration status
+├── LEGAL_DOCUMENT_GENERATOR_README.md  # Detailed documentation
+└── WEBHOOK_SETUP_GUIDE.md    # Webhook configuration guide
+```
+
+---
+
+## 🔧 Configuration
+
+### Formbricks Survey Setup
+
+1. Create a new survey in Formbricks
+2. Add webhook endpoint: `https://your-ngrok-url.ngrok-free.app/api/myreply-webhook`
+3. Configure triggers: `responseFinished`
+4. Map question IDs to legal fields
+
+### Environment Variables
+
+Create `.env.local` in the root directory:
+
+```bash
+# Formbricks Configuration
+FORMBRICKS_SURVEY_URL=http://localhost:3000/s/your-survey-id
+
+# FastAPI Service
+FASTAPI_URL=http://localhost:8000
+
+# LLM Configuration (Optional)
+GOOGLE_API_KEY=your_google_api_key
+```
+
+---
+
+## 🎯 Usage
+
+### 1. Complete the Survey
+
+Access the survey at: `http://localhost:3000/s/your-survey-id`
+
+The survey collects:
+- Tenant personal information
+- Payment status details
+- Eviction notice uploads
+- Legal defense requirements
+
+### 2. Automatic Processing
+
+Upon survey completion, the system automatically:
+1. **Receives webhook** from Formbricks
+2. **Downloads** uploaded eviction notice
+3. **Performs OCR** to extract text
+4. **Analyzes** legal patterns (3-day gaps, etc.)
+5. **Generates** legal arguments using LLM
+6. **Creates** formatted PDF document
+7. **Serves** document for download/viewing
+
+### 3. View Results
+
+- **Survey Results**: Visit `/api/survey-results` for raw data
+- **Generated Documents**: PDFs saved in `/output/` directory
+- **Webhook Logs**: Check console for processing status
+
+---
+
+## 🔍 API Endpoints
+
+### Next.js Webhooks
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/myreply-webhook` | POST | Main legal document generation webhook |
+| `/api/survey-results` | GET/POST | Survey results display and logging |
+| `/api/test-webhook` | GET | Testing endpoint |
+
+### FastAPI Services
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Service health check |
+| `/ocr` | POST | OCR text extraction from images |
+| `/generate-arguments` | POST | LLM legal argument generation |
+| `/generate-defense` | POST | Complete document generation pipeline |
+| `/download/{filename}` | GET | Download generated PDFs |
+
+---
+
+## 🧪 Testing
+
+### Test Webhook Payload
+
+```bash
+cd services
+python test_webhook.py
+```
+
+### Manual Testing
+
+```bash
+# Test survey results endpoint
+curl http://localhost:3000/api/survey-results
+
+# Test PDF generation
+curl -X POST http://localhost:8000/generate-defense \
+  -H "Content-Type: application/json" \
+  -d '{"tenant_name": "Test Tenant", "state": "CA"}'
+```
+
+### Local Survey Testing
+
+Open `survey.html` in your browser or serve via:
+```bash
+python -m http.server 8080
+# Visit: http://localhost:8080/survey.html
+```
+
+---
+
+## 📊 Legal Defense Logic
+
+The system implements comprehensive legal defense analysis:
+
+### UP Codes Supported
+
+- **UP001**: Full payment defense
+- **UP003**: Insufficient notice (3-day gap detection)
+- **UP013**: Refusal to pay defense
+
+### Document Sections
+
+1. **Case Information**: Defendant details and case metadata
+2. **Defense Narrative**: AI-generated legal arguments
+3. **Conclusion**: Standardized legal language
+
+---
+
+## 🛠️ Development
+
+### Adding New Legal Defenses
+
+1. Update `eviction_ocr_llm_helper.py` with new UP codes
+2. Modify detection logic in `services/api.py`
+3. Test with sample data
+
+### Customizing PDF Templates
+
+Edit the `create_legal_pdf` function in `services/api.py` to modify:
+- Document formatting
+- Legal language templates
+- Layout and styling
+
+### Extending Survey Fields
+
+1. Add new questions to Formbricks survey
+2. Update `FIELD_MAPPING` in webhook handlers
+3. Modify processing logic accordingly
+
+---
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+**Webhook not triggering:**
+- Check ngrok URL is current
+- Verify Formbricks webhook configuration
+- Check console logs for errors
+
+**OCR failing:**
+- Ensure image files are accessible
+- Check Python environment has required packages
+- Verify file paths in Docker containers
+
+**PDF not generating:**
+- Check `output/` directory permissions
+- Verify ReportLab installation
+- Check FastAPI service logs
+
+**Survey not loading:**
+- Ensure Formbricks is running
+- Check survey URL is correct
+- Verify CORS settings
+
+---
+
+## 📈 Performance & Scaling
+
+- **Concurrent Processing**: Handles multiple survey submissions
+- **File Management**: Automatic cleanup of temporary uploads
+- **Error Handling**: Comprehensive logging and fallback mechanisms
+- **Rate Limiting**: Built-in protection against abuse
+
+---
+
+## 🔒 Security Considerations
+
+- **Input Validation**: All webhook data validated
+- **File Upload Security**: Restricted file types and sizes
+- **API Authentication**: Secure service communication
+- **Data Privacy**: No sensitive data stored permanently
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📞 Support
+
+For questions or issues:
+- Check the [troubleshooting guide](#-troubleshooting)
+- Review the [integration documentation](INTEGRATION_COMPLETE.md)
+- Examine [webhook setup guide](WEBHOOK_SETUP_GUIDE.md)
+
+---
+
+<div align="center">
+
+**Built with ❤️ for legal aid automation**
+
+*Empowering tenants with AI-powered legal defense*
+
+</div>
 
 ## ✨ About Formbricks
 
