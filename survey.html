@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Page</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #425D6F;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .survey-container {
+            position: relative;
+            height: calc(100vh - 140px);
+            max-height: calc(100vh - 140px);
+            overflow: auto;
+            margin: 0 20px 20px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .survey-container iframe {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .completion-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .completion-message h2 {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .completion-message p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e1e5e9;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .pdf-container {
+            display: none;
+            background: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .pdf-header {
+            padding: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .pdf-header h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .pdf-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .pdf-viewer {
+            padding: 20px;
+        }
+
+        .pdf-actions {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            background: #f8fafc;
+        }
+
+        .print-btn, .download-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .print-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #4338ca;
+        }
+
+        .download-btn {
+            background: #10b981;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #059669;
+        }
+
+        .view-pdf-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .view-pdf-btn:hover {
+            background: linear-gradient(135deg, #4338ca, #6d28d9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+        
+        .download-btn {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 12px 32px;
+            background: #3a3226;
+            color: #f5f0e8;
+            border: 1px solid #2c2416;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-btn:hover {
+            background: #2c2416;
+        }
+
+        .pdf-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+        }
+        
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+                padding: 20px;
+            }
+            
+            .survey-container {
+                height: calc(100vh - 80px);
+                max-height: calc(100vh - 80px);
+            }
+            
+            .completion-message {
+                padding: 30px 20px;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Survey</h1>
+    <div class="survey-container" id="surveyContainer">
+        <iframe
+            id="surveyIframe"
+            src="http://localhost:3000/s/gk0t2ak59ww11l58uaefsnyq"
+            frameborder="0">
+        </iframe>
+    </div>
+    
+    <div class="completion-message" id="completionMessage">
+        <div class="status-container">
+            <h2>Thank you for completing the survey!</h2>
+            <p id="statusMessage">Your legal document is being generated...</p>
+            <div class="progress-bar" id="progressBar" style="display: none;">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdf-container" id="pdfContainer" style="display: none;">
+        <div class="pdf-header">
+            <h2>Your Legal Defense Document</h2>
+            <p>This document has been generated using AI analysis of your eviction notice.</p>
+        </div>
+        <div class="pdf-viewer">
+            <iframe id="pdfIframe" src="" width="100%" height="600px" style="border: 1px solid #e1e5e9; border-radius: 8px;"></iframe>
+            <div id="pdfFallback" style="display: none; text-align: center; padding: 20px;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 10px 0;">📄 Your Legal Document is Ready!</h3>
+                    <p style="margin: 0;">Click below to view your professionally generated legal defense document.</p>
+                </div>
+                <a href="#" id="pdfLink" target="_blank" class="view-pdf-btn">View Legal Document</a>
+                <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                    💡 Opens in a new tab for the best viewing experience
+                </p>
+            </div>
+        </div>
+        <div class="pdf-actions">
+            <button onclick="window.print()" class="print-btn">Print Document</button>
+            <button onclick="downloadPDF()" class="download-btn">Download PDF</button>
+        </div>
+    </div>
+    
+    <script>
+        let responseId = null;
+        let completionDetected = false;
+        
+        // DEBUG: Log all messages
+        window.addEventListener('message', function(event) {
+            console.log('📨 Message received from:', event.origin);
+            console.log('📋 Message data:', event.data);
+            
+            // Check if message is from Formbricks
+            if (event.origin !== 'http://localhost:3000') {
+                console.log('⚠️ Message ignored - wrong origin');
+                return;
+            }
+            
+            const data = event.data;
+            
+            // Check if survey is completed
+            // Handle both string messages and object messages
+            const isCompleted = !completionDetected && (
+                data === 'formbricksSurveyCompleted' ||
+                data === 'formbricks-survey-completed' ||
+                data.type === 'formbricks-survey-completed' || 
+                data.action === 'finished' ||
+                data.type === 'formbricksResponseFinished' ||
+                data.type === 'formbricks-response-finished' ||
+                (typeof data === 'object' && data.hasOwnProperty('responseId') && data.finished === true)
+            );
+            
+            if (isCompleted) {
+                completionDetected = true;
+                responseId = (typeof data === 'object' && data.responseId) ? data.responseId : null;
+                console.log('✅ Survey completed!', responseId ? `Response ID: ${responseId}` : 'Getting latest document');
+                
+                showCompletionMessage();
+            }
+        });
+        
+        // Simpler approach: Just detect when thank-you page shows in iframe
+        // by checking if the iframe content changes
+        let lastIframeHeight = 0;
+        setInterval(function() {
+            const iframe = document.getElementById('surveyIframe');
+            if (!completionDetected && iframe) {
+                try {
+                    // Try to access iframe document
+                    if (iframe.contentDocument) {
+                        const iframeBody = iframe.contentDocument.body;
+                        if (iframeBody && iframeBody.innerText.includes('Thank you')) {
+                            completionDetected = true;
+                            console.log('✅ Survey completion detected - showing completion message');
+                            showCompletionMessage();
+                        }
+                    }
+                } catch (e) {
+                    // Cross-origin, can't access - that's normal for same-origin iframes after navigation
+                }
+            }
+        }, 500);
+        
+        function showCompletionMessage() {
+            // Keep survey visible but show completion overlay
+            document.getElementById('completionMessage').style.display = 'block';
+
+            // Show thank you message immediately (survey completed)
+            document.getElementById('statusMessage').textContent = 'Thank you for completing the survey! Your legal document is being generated...';
+
+            // Show progress bar
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            progressBar.style.display = 'block';
+
+            // Animate progress bar over 5 seconds
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 2; // 2% every 100ms = 5 seconds total
+                progressFill.style.width = progress + '%';
+
+                // Update status message based on progress
+                if (progress < 40) {
+                    document.getElementById('statusMessage').textContent = 'Analyzing your responses...';
+                } else if (progress < 80) {
+                    document.getElementById('statusMessage').textContent = 'Generating legal arguments...';
+                } else {
+                    document.getElementById('statusMessage').textContent = 'Creating your document...';
+                }
+
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 100);
+
+            // After 5 seconds, generate and show PDF
+            setTimeout(function() {
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                document.getElementById('statusMessage').textContent = 'Your legal document is ready!';
+
+                // Generate PDF
+                fetch('http://localhost:3000/api/myreply-webhook?test=sample')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.result && data.result.generated && data.result.pdf_url) {
+                            // Hide completion message and show PDF
+                            document.getElementById('completionMessage').style.display = 'none';
+                            document.getElementById('pdfContainer').style.display = 'block';
+
+                            // Embed PDF in iframe
+                            console.log('Setting PDF URL:', data.result.pdf_url);
+                            document.getElementById('pdfIframe').src = data.result.pdf_url;
+
+                            // For production: Always use the professional viewer approach
+                            // Hide iframe immediately and show the styled viewer
+                            document.getElementById('pdfIframe').style.display = 'none';
+                            document.getElementById('pdfFallback').style.display = 'block';
+                            document.getElementById('pdfLink').href = data.result.pdf_url;
+
+                            // Add some visual feedback
+                            console.log('✅ PDF generated successfully:', data.result.pdf_url);
+                            console.log('📊 Analysis:', data.result.analysis);
+
+                            // Scroll to PDF
+                            setTimeout(() => {
+                                document.getElementById('pdfContainer').scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }, 500);
+                        } else {
+                            // Show error in completion message
+                            document.getElementById('statusMessage').textContent = 'PDF generation failed. Please try again.';
+                            progressBar.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('PDF generation error:', error);
+                        document.getElementById('statusMessage').textContent = 'Error generating document. Please try again.';
+                        progressBar.style.display = 'none';
+                    });
+            }, 5000);
+        }
+
+        function downloadPDF() {
+            const iframe = document.getElementById('pdfIframe');
+            if (iframe.src) {
+                // Create a temporary link to download the PDF
+                const link = document.createElement('a');
+                link.href = iframe.src;
+                link.download = 'legal_defense_document.pdf';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+        
+        console.log('Page loaded - listening for survey completion...');
+    </script>
+</body>
+</html>
+

@@ -12,6 +12,7 @@ const PUBLIC_ROUTES = {
   // API routes accessible from public domain
   API_ROUTES: [
     /^\/api\/v[12]\/client\//, // /api/v1/client/** and /api/v2/client/**
+    /^\/api\/myreply-webhook/, // <--- ADD THIS LINE HERE
   ],
 } as const;
 
